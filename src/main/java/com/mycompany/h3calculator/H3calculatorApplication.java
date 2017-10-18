@@ -3,6 +3,7 @@ package com.mycompany.h3calculator;
 import com.mycompany.h3calculator.controller.CalculatorController;
 import com.mycompany.h3calculator.repository.HeroRepository;
 import com.mycompany.h3calculator.system.CalculatorEngine;
+import com.mycompany.h3calculator.view.MainUI;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
@@ -11,7 +12,8 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackageClasses = {
         HeroRepository.class,
         CalculatorController.class,
-        CalculatorEngine.class
+        CalculatorEngine.class,
+        MainUI.class
 })
 public class H3calculatorApplication {
     public static void main(String[] args) {
