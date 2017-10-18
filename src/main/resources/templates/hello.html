@@ -7,7 +7,7 @@
 <body>
 
 <h1>Form</h1>
-<form action="#" th:action="@{/hero/1/add}" th:object="${hero}" method="post">
+<form action="#" th:action="@{/hero/1/set}" th:object="${hero}" method="post">
     <p>Attack: <input type="number" th:field="*{attack}"></p>
     <p>Defense: <input type="number" th:field="*{defence}"></p>
     <p>Power: <input type="number" th:field="*{power}"></p>
@@ -15,7 +15,7 @@
     <p><input type="submit" value="Set Hero One"></p>
 </form>
 
-<form action="#" th:action="@{/hero/2/add}" th:object="${hero}" method="post">
+<form action="#" th:action="@{/hero/2/set}" th:object="${hero}" method="post">
     <p>Attack: <input type="number" th:field="*{attack}"></p>
     <p>Defense: <input type="number" th:field="*{defence}"></p>
     <p>Power: <input type="number" th:field="*{power}"></p>
