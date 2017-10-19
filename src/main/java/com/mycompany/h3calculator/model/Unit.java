@@ -2,6 +2,7 @@ package com.mycompany.h3calculator.model;
 
 public class Unit {
 
+    private String name;
     private int attack;
     private int defence;
     private int minDmg;
@@ -12,7 +13,8 @@ public class Unit {
     public Unit() {
     }
 
-    public Unit(int attack, int defence, int minDmg, int maxDmg, int hp, int speed) {
+    public Unit(String name, int attack, int defence, int minDmg, int maxDmg, int hp, int speed) {
+        this.name = name;
         this.attack = attack;
         this.defence = defence;
         this.minDmg = minDmg;
@@ -22,6 +24,7 @@ public class Unit {
     }
 
     public Unit(Unit unit) {
+        this.name = unit.name;
         this.attack = unit.attack;
         this.defence = unit.defence;
         this.minDmg = unit.minDmg;
@@ -33,6 +36,14 @@ public class Unit {
     public void addHeroAttributes(Hero hero) {
         this.attack += hero.getAttack();
         this.defence += hero.getDefence();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getAttack() {
