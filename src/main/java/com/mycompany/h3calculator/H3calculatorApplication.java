@@ -1,16 +1,21 @@
 package com.mycompany.h3calculator;
 
+import com.mycompany.h3calculator.container.HeroContainer;
+import com.mycompany.h3calculator.controller.HeroController;
+import com.mycompany.h3calculator.repository.HeroRepository;
+import com.mycompany.h3calculator.system.CalculatorEngine;
+import com.mycompany.h3calculator.view.MainUI;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {
-        "com.mycompany.h3calculator.container",
-        "com.mycompany.h3calculator.controller",
-        "com.mycompany.h3calculator.repository",
-        "com.mycompany.h3calculator.system",
-        "com.mycompany.h3calculator.view"
+@ComponentScan(basePackageClasses = {
+        HeroContainer.class,
+        HeroController.class,
+        HeroRepository.class,
+        CalculatorEngine.class,
+        MainUI.class
 })
 public class H3calculatorApplication {
     public static void main(String[] args) {
