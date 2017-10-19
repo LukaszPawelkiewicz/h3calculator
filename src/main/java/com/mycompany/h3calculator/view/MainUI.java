@@ -96,10 +96,10 @@ public class MainUI extends UI {
         TextField knowledgeField = new TextField();
         knowledgeField.setStyleName(ValoTheme.TEXTFIELD_TINY);
 
-    //    ComboBox<com.mycompany.h3calculator.model.Unit> unitComboBox = new ComboBox<>();
-    //    unitComboBox.setItems(unitRepository.getAllUnits());
-    //    unitComboBox.setItemCaptionGenerator(com.mycompany.h3calculator.model.Unit::getName);
-    //    unitComboBox.setEmptySelectionAllowed(false);
+        ComboBox<com.mycompany.h3calculator.model.Unit> unitComboBox = new ComboBox<>();
+        unitComboBox.setItems(unitRepository.getAllUnits());
+        unitComboBox.setItemCaptionGenerator(com.mycompany.h3calculator.model.Unit::getName);
+        unitComboBox.setEmptySelectionAllowed(false);
 
         new Binder<Hero>().forField(attackField)
                 .withValidator(numberValidator)
@@ -134,7 +134,7 @@ public class MainUI extends UI {
                     hero.setKnowledge(Integer.parseInt(knowledgeField.getValue()));
 
                     heroController.addHeroOne(hero);
-                    //unitController.addUnitOne(unitComboBox.getValue());
+                    unitController.addUnitOne(unitComboBox.getValue());
                 }
             });
         else if (heroNumber == HeroNumber.HERO_TWO)
@@ -150,7 +150,7 @@ public class MainUI extends UI {
                     hero.setKnowledge(Integer.parseInt(knowledgeField.getValue()));
 
                     heroController.addHeroTwo(hero);
-                    //unitController.addUnitTwo(unitComboBox.getValue());
+                    unitController.addUnitTwo(unitComboBox.getValue());
                 }
             });
 
@@ -166,7 +166,7 @@ public class MainUI extends UI {
         content.addComponent(knowledgeLabel);
         content.addComponent(knowledgeField);
 
-        //content.addComponent(unitComboBox);
+        content.addComponent(unitComboBox);
 
         content.addComponent(addButton);
         return content;
