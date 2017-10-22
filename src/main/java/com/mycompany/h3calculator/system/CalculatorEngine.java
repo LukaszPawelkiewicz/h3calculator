@@ -83,14 +83,24 @@ public class CalculatorEngine {
     }
 
     private double calculateAttack() {
+        int tmpAttack;
         if (armyOne.getUnit().getAttack() > armyTwo.getUnit().getDefence()) {
-            return 0.05 * (armyOne.getUnit().getAttack() - armyTwo.getUnit().getDefence());
+            if ((tmpAttack = (armyOne.getUnit().getAttack() - armyTwo.getUnit().getDefence())) > 60) {
+                return 0.05 * 60;
+            } else {
+                return 0.05 * tmpAttack;
+            }
         } else return 0;
     }
 
     private double calculateDefence() {
+        int tmpDefence;
         if (armyOne.getUnit().getAttack() < armyTwo.getUnit().getDefence()) {
-            return 0.025 * (armyTwo.getUnit().getDefence() - armyOne.getUnit().getAttack());
+            if ((tmpDefence = (armyTwo.getUnit().getDefence() - armyOne.getUnit().getAttack())) > 28) {
+                return 0.025 * 28;
+            } else {
+                return 0.025 * tmpDefence;
+            }
         } else return 0;
     }
 
