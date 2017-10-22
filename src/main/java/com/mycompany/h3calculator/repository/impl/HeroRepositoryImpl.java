@@ -1,7 +1,6 @@
 package com.mycompany.h3calculator.repository.impl;
 
 import com.mycompany.h3calculator.model.Hero;
-import com.mycompany.h3calculator.repository.HeroRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;

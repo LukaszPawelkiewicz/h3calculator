@@ -2,7 +2,6 @@ package com.mycompany.h3calculator;
 
 import com.mycompany.h3calculator.container.HeroContainer;
 import com.mycompany.h3calculator.controller.HeroController;
-import com.mycompany.h3calculator.repository.HeroRepository;
 import com.mycompany.h3calculator.system.CalculatorEngine;
 import com.mycompany.h3calculator.view.MainUI;
 import org.springframework.boot.SpringApplication;
