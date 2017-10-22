@@ -1,9 +1,11 @@
 package com.mycompany.h3calculator.view;
 
 import com.mycompany.h3calculator.controller.ArmyController;
+import com.mycompany.h3calculator.controller.CalculatorController;
 import com.mycompany.h3calculator.controller.HeroController;
 import com.mycompany.h3calculator.model.Army;
 import com.mycompany.h3calculator.model.Hero;
+import com.mycompany.h3calculator.model.Report;
 import com.vaadin.annotations.Theme;
 import com.vaadin.data.Binder;
 import com.vaadin.data.ValidationResult;
@@ -22,22 +24,34 @@ public class MainUI extends UI {
 
     private final HeroController heroController;
     private final ArmyController armyController;
+    private final CalculatorController calculatorController;
 
     private Validator<String> numberValidator;
     private Panel heroOnePanel;
     private Panel heroTwoPanel;
+    private Panel reportPanel;
+
+    private Label minDmgLabel = new Label("Min dmg: ");
+    private Label maxDmgLabel = new Label("Max dmg: ");
+    private Label minUnitsDestroyedLabel = new Label("Minimal amount of destroyed units: ");
+    private Label maxUnitsDestroyedLabel = new Label("Maximal amount of destroyed units: ");
+
+    private boolean heroOneSet = false;
+    private boolean heroTwoSet = false;
 
     @Autowired
-    public MainUI(HeroController heroController, ArmyController armyController) {
+    public MainUI(HeroController heroController, ArmyController armyController, CalculatorController calculatorController) {
         this.heroController = heroController;
         this.armyController = armyController;
+        this.calculatorController = calculatorController;
     }
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
         setupValidator();
-        setupPanelOne();
-        setupPanelTwo();
+        setupPanelHeroOne();
+        setupPanelHeroTwo();
+        setupReportPanel();
         setupView();
     }
 
@@ -49,29 +63,66 @@ public class MainUI extends UI {
     }
 
     private void setupView() {
-        GridLayout layout = new GridLayout();
-        layout.setColumns(4);
-        layout.setRows(4);
+        //GridLayout layout = new GridLayout();
+        HorizontalLayout layout = new HorizontalLayout();
+        //layout.setColumns(4);
+        //layout.setRows(4);
         layout.setSpacing(true);
         layout.setMargin(true);
         layout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 
-        layout.addComponent(heroOnePanel, 1, 1, 1, 1);
-        layout.addComponent(heroTwoPanel, 2, 1, 2, 1);
+        //layout.addComponent(heroOnePanel, 1, 1, 1, 1);
+        //layout.addComponent(heroTwoPanel, 2, 1, 2, 1);
+        //layout.addComponent(reportPanel, 3, 1, 3, 1);
+
+        layout.addComponent(heroOnePanel);
+        layout.addComponent(heroTwoPanel);
+        layout.addComponent(reportPanel);
 
         setContent(layout);
     }
 
-    private void setupPanelOne() {
+    private void setupPanelHeroOne() {
         heroOnePanel = new Panel("Hero One");
         heroOnePanel.setWidth("50%");
         heroOnePanel.setContent(buildForm(HeroNumber.HERO_ONE));
     }
 
-    private void setupPanelTwo() {
+    private void setupPanelHeroTwo() {
         heroTwoPanel = new Panel("Hero Two");
         heroTwoPanel.setWidth("50%");
         heroTwoPanel.setContent(buildForm(HeroNumber.HERO_TWO));
+    }
+
+    private void setupReportPanel() {
+        reportPanel = new Panel("Report");
+        reportPanel.setWidth("400");
+        reportPanel.setContent(buildReport());
+    }
+
+    private Component buildReport() {
+        FormLayout content = new FormLayout();
+
+        Button calculateButton = new Button("Calculate");
+        calculateButton.addStyleName(ValoTheme.BUTTON_PRIMARY);
+        calculateButton.addClickListener(event -> {
+            if (heroOneSet && heroTwoSet) {
+                Report report = calculatorController.calculate();
+
+                minDmgLabel.setValue("Min dmg: " + report.getMinDmg());
+                maxDmgLabel.setValue("max dmg: " + report.getMaxDmg());
+                minUnitsDestroyedLabel.setValue("Minimal amount of destroyed units: " + report.getMinUnitsDestroyed());
+                maxUnitsDestroyedLabel.setValue("Maximal amount of destroyed units: " + report.getMaxUnitsDestroyed());
+            }
+        });
+
+        content.addComponent(calculateButton);
+        content.addComponent(minDmgLabel);
+        content.addComponent(maxDmgLabel);
+        content.addComponent(minUnitsDestroyedLabel);
+        content.addComponent(maxUnitsDestroyedLabel);
+
+        return content;
     }
 
     private FormLayout buildForm(HeroNumber heroNumber) {
@@ -124,7 +175,7 @@ public class MainUI extends UI {
                 .withConverter(new StringToIntegerConverter("enter number"))
                 .bind(Army::getNumberOfUnits, Army::setNumberOfUnits);
 
-        Button addButton = new Button("Add");
+        Button addButton = new Button("Set");
         addButton.addStyleName(ValoTheme.BUTTON_PRIMARY);
 
         if (heroNumber == HeroNumber.HERO_ONE)
@@ -141,6 +192,7 @@ public class MainUI extends UI {
 
                     heroController.addHeroOne(hero);
                     armyController.addArmyOne(new Army(unitComboBox.getValue(), Integer.parseInt(unitNumberField.getValue())));
+                    heroOneSet = true;
                 }
             });
         else if (heroNumber == HeroNumber.HERO_TWO)
@@ -157,6 +209,7 @@ public class MainUI extends UI {
 
                     heroController.addHeroTwo(hero);
                     armyController.addArmyTwo(new Army(unitComboBox.getValue(), Integer.parseInt(unitNumberField.getValue())));
+                    heroTwoSet = true;
                 }
             });
 
