@@ -43,8 +43,6 @@ public class CalculatorEngine {
 
     public Report calculate() {
         Report report = new Report();
-        double minDmg;
-        double maxDmg;
 
         report.setMinDmg((long) (armyOne.getUnit().getMinDmg()
                 * armyOne.getNumberOfUnits()
