@@ -1,9 +1,9 @@
 package com.mycompany.h3calculator.view;
 
+import com.mycompany.h3calculator.controller.ArmyController;
 import com.mycompany.h3calculator.controller.HeroController;
-import com.mycompany.h3calculator.controller.UnitController;
+import com.mycompany.h3calculator.model.Army;
 import com.mycompany.h3calculator.model.Hero;
-import com.mycompany.h3calculator.repository.UnitRepository;
 import com.vaadin.annotations.Theme;
 import com.vaadin.data.Binder;
 import com.vaadin.data.ValidationResult;
@@ -21,18 +21,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class MainUI extends UI {
 
     private final HeroController heroController;
-    private final UnitController unitController;
-    private final UnitRepository unitRepository;
+    private final ArmyController armyController;
 
     private Validator<String> numberValidator;
     private Panel heroOnePanel;
     private Panel heroTwoPanel;
 
     @Autowired
-    public MainUI(HeroController heroController, UnitController unitController, UnitRepository unitRepository) {
+    public MainUI(HeroController heroController, ArmyController armyController) {
         this.heroController = heroController;
-        this.unitController = unitController;
-        this.unitRepository = unitRepository;
+        this.armyController = armyController;
     }
 
     @Override
@@ -86,6 +84,8 @@ public class MainUI extends UI {
         powerLabel.setStyleName(ValoTheme.LABEL_SMALL);
         Label knowledgeLabel = new Label("Knowledge: ");
         knowledgeLabel.setStyleName(ValoTheme.LABEL_SMALL);
+        Label unitNumberLabel = new Label("Number of units: ");
+        unitNumberLabel.setStyleName(ValoTheme.LABEL_SMALL);
 
         TextField attackField = new TextField();
         attackField.setStyleName(ValoTheme.TEXTFIELD_TINY);
@@ -95,9 +95,11 @@ public class MainUI extends UI {
         powerField.setStyleName(ValoTheme.TEXTFIELD_TINY);
         TextField knowledgeField = new TextField();
         knowledgeField.setStyleName(ValoTheme.TEXTFIELD_TINY);
+        TextField unitNumberField = new TextField();
+        unitNumberField.setStyleName(ValoTheme.TEXTAREA_TINY);
 
         ComboBox<com.mycompany.h3calculator.model.Unit> unitComboBox = new ComboBox<>();
-        unitComboBox.setItems(unitRepository.getAllUnits());
+        unitComboBox.setItems(armyController.getAllUnits());
         unitComboBox.setItemCaptionGenerator(com.mycompany.h3calculator.model.Unit::getName);
         unitComboBox.setEmptySelectionAllowed(false);
 
@@ -117,6 +119,10 @@ public class MainUI extends UI {
                 .withValidator(numberValidator)
                 .withConverter(new StringToIntegerConverter("enter number"))
                 .bind(Hero::getKnowledge, Hero::setKnowledge);
+        new Binder<Army>().forField(unitNumberField)
+                .withValidator(numberValidator)
+                .withConverter(new StringToIntegerConverter("enter number"))
+                .bind(Army::getNumberOfUnits, Army::setNumberOfUnits);
 
         Button addButton = new Button("Add");
         addButton.addStyleName(ValoTheme.BUTTON_PRIMARY);
@@ -134,7 +140,7 @@ public class MainUI extends UI {
                     hero.setKnowledge(Integer.parseInt(knowledgeField.getValue()));
 
                     heroController.addHeroOne(hero);
-                    unitController.addUnitOne(unitComboBox.getValue());
+                    armyController.addArmyOne(new Army(unitComboBox.getValue(), Integer.parseInt(unitNumberField.getValue())));
                 }
             });
         else if (heroNumber == HeroNumber.HERO_TWO)
@@ -150,7 +156,7 @@ public class MainUI extends UI {
                     hero.setKnowledge(Integer.parseInt(knowledgeField.getValue()));
 
                     heroController.addHeroTwo(hero);
-                    unitController.addUnitTwo(unitComboBox.getValue());
+                    armyController.addArmyTwo(new Army(unitComboBox.getValue(), Integer.parseInt(unitNumberField.getValue())));
                 }
             });
 
@@ -165,6 +171,9 @@ public class MainUI extends UI {
 
         content.addComponent(knowledgeLabel);
         content.addComponent(knowledgeField);
+
+        content.addComponent(unitNumberLabel);
+        content.addComponent(unitNumberField);
 
         content.addComponent(unitComboBox);
 

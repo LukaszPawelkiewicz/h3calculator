@@ -1,30 +1,29 @@
 package com.mycompany.h3calculator.controller;
 
-import com.mycompany.h3calculator.model.Hero;
-import com.mycompany.h3calculator.container.HeroContainer;
+import com.mycompany.h3calculator.model.Report;
+import com.mycompany.h3calculator.system.CalculatorEngine;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-//@Controller
-@Deprecated
-@RequestMapping("/")
+@RestController
+@RequestMapping("calculator")
 public class CalculatorController {
 
-    private final HeroContainer heroContainer;
+    private final CalculatorEngine calculatorEngine;
 
     @Autowired
-    public CalculatorController(HeroContainer heroContainer) {
-        this.heroContainer = heroContainer;
+    public CalculatorController(CalculatorEngine calculatorEngine) {
+        this.calculatorEngine = calculatorEngine;
     }
 
-    @GetMapping("/")
-    public String hello(Model model) {
-        model.addAttribute("hero", new Hero());
-        return "hello";
+    @GetMapping("/calculate")
+    public Report calculate() {
+        calculatorEngine.createArmyOne();
+        calculatorEngine.createArmyTwo();
+
+        return calculatorEngine.calculate();
     }
-
-
 
 }

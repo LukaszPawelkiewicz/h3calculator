@@ -1,7 +1,5 @@
 package com.mycompany.h3calculator.model;
 
-import com.mycompany.h3calculator.model.Unit;
-
 public class Hero {
 
     private Unit unit;

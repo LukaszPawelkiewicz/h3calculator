@@ -1,6 +1,6 @@
 package com.mycompany.h3calculator.container;
 
-import com.mycompany.h3calculator.model.Unit;
+import com.mycompany.h3calculator.model.Army;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
@@ -8,19 +8,19 @@ import org.springframework.web.context.WebApplicationContext;
 
 @Component
 @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class UnitContainer {
+public class ArmyContainer {
 
-    private final Unit[] units = new Unit[2];
+    private final Army[] armies = new Army[2];
 
-    public void setUnitOne(Unit unit) {
-        units[0] = unit;
+    public void setArmyOne(Army armyOne) {
+        armies[0] = armyOne;
     }
 
-    public void setUnitTwo(Unit unit) {
-        units[1] = unit;
+    public void setArmyTwo(Army armyTwo) {
+        armies[1] = armyTwo;
     }
 
-    public Unit[] getUnits() {
-        return units;
+    public Army[] getArmies() {
+        return armies;
     }
 }
